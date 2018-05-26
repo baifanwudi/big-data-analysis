@@ -14,7 +14,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spark.version>2.1.2</spark.version>
-        <hadoop.version>2.5.2</hadoop.version>
+        <hadoop.version>2.6.5</hadoop.version>
     </properties>
 
     <dependencies>
@@ -74,6 +74,11 @@
             <version>1.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch-hadoop</artifactId>
+            <version>6.2.4</version>
+        </dependency>
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
