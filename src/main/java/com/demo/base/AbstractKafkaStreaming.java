@@ -27,12 +27,7 @@ public abstract class AbstractKafkaStreaming {
 
 	private void executeStreaming(String checkpointDirectory,Boolean isLatest ,Duration duration)throws InterruptedException{
 
-		String appName=this.getClass().getSimpleName();
-		SparkConf sparkConf = new SparkConf().setAppName(appName);
-		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, duration);
-		jssc.checkpoint(checkpointDirectory);
-
-		Map<String, Object> kafkaParams = new HashMap<>(16);
+		String appName=this.getClass().getSimpleName();Map<String, Object> kafkaParams = new HashMap<>(16);
 		kafkaParams.put("bootstrap.servers", KafkaConfig.KAFKA_BROKER_LIST);
 		kafkaParams.put("key.deserializer", StringDeserializer.class);
 		kafkaParams.put("value.deserializer", StringDeserializer.class);
@@ -44,6 +39,11 @@ public abstract class AbstractKafkaStreaming {
 		}
 		kafkaParams.put("enable.auto.commit", false);
 		kafkaParams.put("max.poll.records", 1000);
+		SparkConf sparkConf = new SparkConf().setAppName(appName);
+		JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, duration);
+		jssc.checkpoint(checkpointDirectory);
+
+
 
 		Function0<JavaStreamingContext> createContextFunc= ()->createContext(jssc,kafkaParams);
 		JavaStreamingContext ssc=JavaStreamingContext.getOrCreate(checkpointDirectory,createContextFunc);
