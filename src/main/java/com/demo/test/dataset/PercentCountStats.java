@@ -17,15 +17,13 @@ public class PercentCountStats {
 
 		SparkSession spark=SparkSession.builder().master("local[*]").getOrCreate();
 
-		Dataset<Row> table=spark.read().json("src/main/data/transfer_line_count.json");
-
-
+		Dataset<Row> table=spark.read().json("src/main/data/transfer_line_count.txt");
 
 		table.printSchema();
+
 		table.show();
 
 		table.agg(sum("total_num")).show();
-
 
 		Dataset<Row> result=table.withColumn("percent",format_number(col("total_num").divide( sum("total_num").over()).multiply(100),5));
 
